@@ -25,6 +25,7 @@ This project is a web-based quiz game that challenges users to test their knowle
 - Score tracking and leaderboard.
 - User profile with quiz history.
 
+ More details about features on FEATURES.md file.
 
 ## Getting Started
 

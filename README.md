@@ -44,7 +44,7 @@ To set up the database for this project, follow these steps:
    - createdb capital_cities_quiz
    
    2. Open your PostgreSQL client and connect to the newly created database
-   3. Run the SQL scripts in the 'database_scripts' directory to create the necessary tables and populate the initial data
+   3. Run the SQL scripts in the 'database_scripts' directory to create the necessary tables and populate the initial data, or follow the commands from the sql file db_table_setup.sql to setup the initial tables if you would want to set them up manualy: 
    - psql -d capital_cities_quiz -a -f database_scripts/db_table_setup.sql
    
 ## Usage

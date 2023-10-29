@@ -10,6 +10,7 @@ A web-based quiz game to test your knowledge of capital cities.
   - [Features](#features)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
+  - [Database Setup](#database-setup)
   - [Usage](#usage)
   - [Technologies used](#technologies-used)
 
@@ -36,6 +37,16 @@ Before you begin, ensure you have met the following requirements:
 - Node.js installed on your local machine.
 - PostgreSQL installed and a database created for the application.
 
+## Database Setup
+To set up the database for this project, follow these steps:
+   1. Create a new PostgreSQL database for this project using pgAdmin or the command line:
+   
+   - createdb capital_cities_quiz
+   
+   2. Open your PostgreSQL client and connect to the newly created database
+   3. Run the SQL scripts in the 'database_scripts' directory to create the necessary tables and populate the initial data
+   - psql -d capital_cities_quiz -a -f database_scripts/db_table_setup.sql
+   
 ## Usage
 
 - Register an account or log in to start playing the quiz game.

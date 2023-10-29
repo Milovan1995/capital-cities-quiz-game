@@ -16,14 +16,6 @@ CREATE TABLE region (
     id serial PRIMARY KEY,
     name VARCHAR(255)
 );
-
-INSERT INTO region (name) VALUES
-('Europe'),
-('Africa'),
-('Asia'),
-('Oceania'),
-('North America and South America');
-
 -- Create the 'capitals' table
 CREATE TABLE capitals (
     id serial PRIMARY KEY,

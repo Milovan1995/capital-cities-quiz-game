@@ -5,8 +5,8 @@ CREATE TABLE duration (
 
 CREATE TABLE users (
     id serial PRIMARY KEY,
-    username VARCHAR(255),
-    password VARCHAR(255)
+    username VARCHAR(45),
+    password TEXT
 );
 
 CREATE TABLE region (
@@ -16,8 +16,8 @@ CREATE TABLE region (
 
 CREATE TABLE capitals (
     id serial PRIMARY KEY,
-    country VARCHAR(255),
-    capital VARCHAR(255),
+    country VARCHAR(45),
+    capital VARCHAR(45),
     region_id INT REFERENCES region(id)
 );
 
@@ -30,7 +30,7 @@ CREATE TABLE game (
     date_played DATE
 );
 
-CREATE TABLE highscores (
+CREATE TABLE scores (
     id serial PRIMARY KEY,
     duration_id INT REFERENCES duration(id),
     game_id INT REFERENCES game(id),
@@ -48,7 +48,7 @@ CREATE TABLE feedback (
 CREATE TABLE achievements (
     id serial PRIMARY KEY,
     user_id INT REFERENCES users(id),
-    achievement_name VARCHAR(255),
+    achievement_name VARCHAR(45),
     achievement_description TEXT,
     game_id INT REFERENCES game(id)
 );

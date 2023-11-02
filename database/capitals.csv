@@ -28,7 +28,6 @@ id,country,capital,region_id
 147,Montenegro,Podgorica,1
 156,Netherlands,Amsterdam,1
 86,Greenland,Nuuk,5
-30,Bouvet Island,,
 87,Grenada,St. George's,5
 88,Guadeloupe,Basse-Terre,5
 90,Guatemala,Guatemala City,5
@@ -95,7 +94,6 @@ id,country,capital,region_id
 27,Bolivia,Sucre,5
 31,Brazil,Brasilia,5
 2,Aland Islands,Mariehamn,1
-9,Antarctica,,
 36,Burundi,Bujumbura,2
 38,Cameroon,Yaounde,2
 40,Cape Verde,Praia,2
@@ -151,7 +149,6 @@ id,country,capital,region_id
 73,Fiji Islands,Suva,4
 77,French Polynesia,Papeete,4
 89,Guam,Hagatna,4
-96,Heard Island and McDonald Islands,,4
 114,Kiribati,Tarawa,4
 137,Marshall Islands,Majuro,4
 143,Micronesia,Palikir,4
@@ -235,7 +232,6 @@ id,country,capital,region_id
 221,Tokelau,Nukunonu,4
 222,Tonga,Nuku'alofa,4
 228,Tuvalu,Funafuti,4
-234,United States Minor Outlying Islands,,4
 237,Vanuatu,Port Vila,4
 243,Wallis And Futuna Islands,Mata Utu,4
 66,El Salvador,San Salvador,5

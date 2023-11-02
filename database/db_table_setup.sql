@@ -35,7 +35,7 @@ CREATE TABLE scores (
     duration_id integer REFERENCES duration(id) ON DELETE CASCADE,
     game_id integer REFERENCES game(id) ON DELETE CASCADE,
     user_id integer REFERENCES users(id) ON DELETE CASCADE,
-    UNIQUE (game_id);
+    UNIQUE (game_id)
 );
 
 CREATE TABLE feedback (

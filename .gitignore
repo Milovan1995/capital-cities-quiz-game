@@ -1,0 +1,17 @@
+# Ignore the node_modules directory
+node_modules/
+
+# Ignore the .DS_Store files (macOS system files)
+.DS_Store
+
+# Ignore log files
+*.log
+
+# Ignore environment files (e.g., .env)
+.env
+
+# Ignore user-specific VS Code settings
+.vscode/settings.json
+
+# Ignore user-specific IntelliJ IDEA settings
+.idea/

@@ -55,6 +55,6 @@ To set up the database for this project, follow these steps:
 
 ## Technologies used
 - Angular
-- Node.js
+- Node
 - PostgreSQL
 

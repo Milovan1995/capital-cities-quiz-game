@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import { config } from "dotenv";
-import { getCapitals } from "./DAOUtil/capital.dao.js";
+import { getCapitals } from "./daoUtil/dist/capital.dao.js";
 
 config();
 const app = express();

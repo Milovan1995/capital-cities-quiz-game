@@ -15,3 +15,5 @@ node_modules/
 
 # Ignore user-specific IntelliJ IDEA settings
 .idea/
+
+backend/daoUtil/dist

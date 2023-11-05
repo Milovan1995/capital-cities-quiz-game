@@ -1,5 +1,5 @@
-import db from "./db.js";
-import { Capital } from "./ITables.js";
+import db from "./db.ts";
+import { Capital } from "./ITables.ts";
 
 async function getCapitals(): Promise<Capital[]> {
   try {

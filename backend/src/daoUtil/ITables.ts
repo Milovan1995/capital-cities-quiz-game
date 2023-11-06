@@ -1,4 +1,4 @@
-export interface Capital {
+export interface ICapital {
   id: number;
   country: string;
   capital: string;

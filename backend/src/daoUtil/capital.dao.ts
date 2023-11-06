@@ -1,7 +1,7 @@
 import { db } from "./db.js";
-import { Capital } from "./ITables.js";
+import { ICapital } from "./ITables.js";
 
-async function getCapitals(): Promise<Capital[]> {
+async function getCapitals(): Promise<ICapital[]> {
   try {
     const sql = "SELECT * FROM capitals";
     const result = await db.query(sql);

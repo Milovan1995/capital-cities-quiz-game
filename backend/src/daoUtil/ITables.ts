@@ -1,23 +1,69 @@
+//interfaces for db tables - making sure the data is consistent:
 export interface ICapital {
   id: number;
   country: string;
   capital: string;
+  region_id: number | null;
 }
-
+export interface IUser {
+  id: number;
+  username: string;
+  password: string;
+}
+export interface IDuration {
+  id: number;
+  value: number;
+}
+export interface IRegion {
+  id: number;
+  name: string;
+}
+export interface IGame {
+  id: number;
+  user_id: number;
+  score: number;
+  duration_id: number;
+  region_id: number;
+  date_played: Date;
+}
+export interface IScore {
+  id: number;
+  duration_id: number;
+  game_id: number;
+  user_id: number;
+}
+export interface IFeedback {
+  id: number;
+  user_id: number;
+  comment: string;
+  date_created: Date;
+}
+export interface IAchievement {
+  id: number;
+  achievement_name: string;
+  achievement_description: string;
+}
+export interface IAchievementAcquired {
+  id: number;
+  user_id: number;
+  achievement_id: number;
+  game_id: number | null;
+}
+// .env variables i'm saving, making sure data is consistent:
 export class EnvVars {
-  password: string | undefined;
-  host: string | undefined;
-  user: string | undefined;
-  db: string | undefined;
-  dbPort: number | undefined;
-  appPort: number | undefined;
+  password: string;
+  host: string;
+  user: string;
+  db: string;
+  dbPort: number;
+  appPort: number;
   constructor(
-    pas: string | undefined,
-    host: string | undefined,
-    user: string | undefined,
-    db: string | undefined,
-    dbPort: number | undefined,
-    appPort: number | undefined
+    pas: string,
+    host: string,
+    user: string,
+    db: string,
+    dbPort: number,
+    appPort: number
   ) {
     this.password = pas;
     this.host = host;

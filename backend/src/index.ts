@@ -18,6 +18,7 @@ const port = dbInfo.appPort;
     console.error("Error getting capitals", error);
   }
 })();
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 

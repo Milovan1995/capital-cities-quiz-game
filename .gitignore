@@ -17,3 +17,5 @@ node_modules/
 .idea/
 
 dist/
+
+**/*test.ts

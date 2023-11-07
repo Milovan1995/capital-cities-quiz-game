@@ -1,6 +1,7 @@
 import { IUser } from "../daoUtil/ITables.js";
 import { db } from "../daoUtil/db.js";
 import { config } from "dotenv";
+import bcrypt from "bcrypt";
 
 config();
 
@@ -26,12 +27,42 @@ export async function registerUser(username: string, password: string) {
     if (usernameExists) {
       throw new Error("Username already exists");
     } else {
+      const saltRounds: number = 10;
+      const hashedPassword: string = await bcrypt.hash(password, saltRounds);
       const sql = "INSERT INTO users (username, password) VALUES ($1, $2)";
-      await db.query(sql, [username, password]);
+      await db.query(sql, [username, hashedPassword]);
       console.log("Registration successfull!");
     }
   } catch (error) {
     console.error("Error registering user", error);
     throw new Error("Error registering user");
+  }
+}
+
+export async function verifyUser(username: string, password: string) {
+  try {
+    const sql = "SELECT username, password FROM users WHERE username = $1";
+    const result = await db.query(sql, [username]);
+    const user = result.rows[0];
+
+    if (!user) {
+      // Username doesn't exist
+      return false;
+    }
+
+    // Use bcrypt.compare to verify the password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (isPasswordValid) {
+      // Password is valid
+      return true;
+    } else {
+      // Password is invalid
+      console.log("Password is invalid");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error verifying user", error);
+    throw new Error("Error verifying user");
   }
 }

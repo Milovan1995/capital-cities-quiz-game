@@ -4,7 +4,8 @@ import { config } from "dotenv";
 
 config();
 
-// Function to check if a username already exists
+// checking if the username already exists:
+
 export async function checkUsernameExists(username: string) {
   let users: IUser[] = [];
   try {
@@ -17,13 +18,20 @@ export async function checkUsernameExists(username: string) {
     throw new Error("Error checking username existence");
   }
 }
+// Function to register a new user
+export async function registerUser(username: string, password: string) {
+  try {
+    const usernameExists = await checkUsernameExists(username);
 
-// Example usage
-let username: string = "some name";
-checkUsernameExists(username)
-  .then((userExists) => {
-    console.log(`User ${username} exists: ${userExists}`);
-  })
-  .catch((error) => {
-    console.error("Error checking username existence", error);
-  });
+    if (usernameExists) {
+      throw new Error("Username already exists");
+    } else {
+      const sql = "INSERT INTO users (username, password) VALUES ($1, $2)";
+      await db.query(sql, [username, password]);
+      console.log("Registration successfull!");
+    }
+  } catch (error) {
+    console.error("Error registering user", error);
+    throw new Error("Error registering user");
+  }
+}

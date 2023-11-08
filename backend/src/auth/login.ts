@@ -1,7 +1,10 @@
 import { db } from "../daoUtil/db.js";
 import bcrypt from "bcrypt";
 
-export async function verifyUser(username: string, password: string) {
+export async function verifyUser(
+  username: string,
+  password: string
+): Promise<boolean> {
   try {
     const sql = "SELECT username, password FROM users WHERE username = $1";
     const result = await db.query(sql, [username]);

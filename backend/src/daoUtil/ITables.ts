@@ -27,10 +27,11 @@ export interface IGame {
   date_played: Date;
 }
 export interface IScore {
-  id: number;
-  duration_id: number;
-  game_id: number;
-  user_id: number;
+  username: string;
+  score: number;
+  region: string;
+  date_played: Date;
+  game_duration: number;
 }
 export interface IFeedback {
   id: number;

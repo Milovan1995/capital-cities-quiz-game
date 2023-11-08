@@ -7,10 +7,10 @@ config();
 
 // checking if the username already exists:
 
-export async function checkUsernameExists(username: string) {
+export async function checkUsernameExists(username: string): Promise<boolean> {
   let users: IUser[] = [];
   try {
-    const sql = "SELECT username FROM users WHERE username = $1";
+    const sql: string = "SELECT username FROM users WHERE username = $1";
     const result = await db.query(sql, [username]);
     users = result.rows;
     return users.length === 0 ? false : true;
@@ -20,7 +20,10 @@ export async function checkUsernameExists(username: string) {
   }
 }
 // Function to register a new user
-export async function registerUser(username: string, password: string) {
+export async function registerUser(
+  username: string,
+  password: string
+): Promise<void> {
   try {
     const usernameExists = await checkUsernameExists(username);
 
@@ -29,7 +32,8 @@ export async function registerUser(username: string, password: string) {
     } else {
       const saltRounds: number = 10;
       const hashedPassword: string = await bcrypt.hash(password, saltRounds);
-      const sql = "INSERT INTO users (username, password) VALUES ($1, $2)";
+      const sql: string =
+        "INSERT INTO users (username, password) VALUES ($1, $2)";
       await db.query(sql, [username, hashedPassword]);
       console.log("Registration successfull!");
     }

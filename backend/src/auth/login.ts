@@ -17,6 +17,7 @@ export async function verifyUser(username: string, password: string) {
 
     if (isPasswordValid) {
       // Password is valid
+      console.log("Verified, password valid");
       return true;
     } else {
       // Password is invalid

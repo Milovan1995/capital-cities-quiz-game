@@ -270,7 +270,7 @@ INSERT INTO capitals (id, country, capital, region_id) VALUES
 	('188', 'Saint Vincent And The Grenadines', 'Kingstown', '5');
 
 
-'-- achievements
+-- achievements
 
  INSERT INTO achievements (id, achievement_name, achievement_description) VALUES
 	('1', 'Quick Thinker', 'Correctly answer 10 questions in under 5 seconds each.'),

@@ -1,3 +1,4 @@
+import { QueryResult } from "pg";
 import { db } from "../daoUtil/db.js";
 import { IScore } from "../daoUtil/ITables.js";
 
@@ -11,7 +12,8 @@ async function getScores(chosenDuration: number): Promise<IScore[]> {
       and g.region_id=r.id
       and d.value=${chosenDuration}
       order by g.score desc;`;
-    const result = await db.query(sql);
+    const result: QueryResult<IScore> = await db.query(sql);
+    console.log(result.rows);
     return result.rows;
   } catch (error) {
     console.error("Error executing query", error);

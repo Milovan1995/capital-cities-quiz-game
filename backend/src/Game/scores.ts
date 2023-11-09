@@ -1,6 +1,8 @@
 import { QueryResult } from "pg";
-import { db } from "../daoUtil/db.js";
-import { IScore } from "../daoUtil/ITables.js";
+import { db } from "../dao/db.js";
+import { IScore } from "../dao/ITables.js";
+import { insertIntoDb } from "../dao/dao.util.js";
+import { IGame } from "../dao/ITables.js";
 
 async function getScores(chosenDuration: number): Promise<IScore[]> {
   try {
@@ -20,21 +22,24 @@ async function getScores(chosenDuration: number): Promise<IScore[]> {
     throw new Error("Error retrieving scores");
   }
 }
+
 async function saveGame(
   userId: number,
   score: number,
-  durationID: number,
+  durationId: number,
   regionId: number
-): Promise<void> {
+) {
+  const game: IGame = {
+    user_id: userId,
+    score: score,
+    duration_id: durationId,
+    region_id: regionId,
+    date_played: new Date().toISOString().split("T")[0],
+  };
   try {
-    const sql: string = `INSERT INTO game(user_id,score,duration_id,region_id,date_played) VALUES($1,$2,$3,$4,to_timestamp(${
-      Date.now() / 1000.0
-    }));`;
-    const result = await db.query(sql, [userId, score, durationID, regionId]);
-    console.log("Game saved:" + result.rows);
-  } catch (error) {
-    console.error("Error saving game", error);
-    throw new Error("Error saving game");
+    insertIntoDb(game, "game");
+  } catch (err) {
+    console.error(err);
   }
 }
 

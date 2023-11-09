@@ -8,7 +8,7 @@ async function insertIntoDb(
     const { columns, placeholders, values } = generateQueryParams(param);
     const sql: string = `INSERT INTO ${tableName}(${columns}) VALUES(${placeholders});`;
     const result = await db.query(sql, [...values]);
-    console.log(`${tableName} saved.${[...values]}`);
+    console.log(`${tableName} saved: Values: ${[...values]}`);
   } catch (error) {
     console.error(`Error saving ${tableName}`, error);
     throw new Error(`Error saving ${tableName}`);

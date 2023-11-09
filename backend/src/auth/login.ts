@@ -1,4 +1,4 @@
-import { db } from "../daoUtil/db.js";
+import { db } from "../dao/db.js";
 import bcrypt from "bcrypt";
 
 export async function verifyUser(

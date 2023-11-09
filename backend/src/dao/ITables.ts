@@ -19,12 +19,12 @@ export interface IRegion {
   name: string;
 }
 export interface IGame {
-  id: number;
   user_id: number;
   score: number;
   duration_id: number;
   region_id: number;
-  date_played: Date;
+  date_played: string;
+  [key: string]: string | number;
 }
 export interface IScore {
   username: string;

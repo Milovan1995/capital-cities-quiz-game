@@ -1,5 +1,5 @@
-import { IUser } from "../daoUtil/ITables.js";
-import { db } from "../daoUtil/db.js";
+import { IUser } from "../dao/ITables.js";
+import { db } from "../dao/db.js";
 import { config } from "dotenv";
 import bcrypt from "bcrypt";
 

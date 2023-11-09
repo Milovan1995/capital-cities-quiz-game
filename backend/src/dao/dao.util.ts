@@ -10,8 +10,8 @@ async function insertIntoDb(
     const result = await db.query(sql, [...values]);
     console.log(`${tableName} saved.${result.rows}`);
   } catch (error) {
-    console.error("Error saving game", error);
-    throw new Error("Error saving game");
+    console.error(`Error saving ${tableName}`, error);
+    throw new Error(`Error saving ${tableName}`);
   }
 }
 

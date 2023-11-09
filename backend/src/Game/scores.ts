@@ -20,5 +20,22 @@ async function getScores(chosenDuration: number): Promise<IScore[]> {
     throw new Error("Error retrieving scores");
   }
 }
+async function saveGame(
+  userId: number,
+  score: number,
+  durationID: number,
+  regionId: number
+): Promise<void> {
+  try {
+    const sql: string = `INSERT INTO game(user_id,score,duration_id,region_id,date_played) VALUES($1,$2,$3,$4,to_timestamp(${
+      Date.now() / 1000.0
+    }));`;
+    const result = await db.query(sql, [userId, score, durationID, regionId]);
+    console.log("Game saved:" + result.rows);
+  } catch (error) {
+    console.error("Error saving game", error);
+    throw new Error("Error saving game");
+  }
+}
 
-export { getScores };
+export { getScores, saveGame };

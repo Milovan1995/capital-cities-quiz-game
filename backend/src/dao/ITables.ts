@@ -4,19 +4,22 @@ export interface ICapital {
   country: string;
   capital: string;
   region_id: number | null;
+  [key: string]: string | number;
 }
 export interface IUser {
   username: string;
   password: string;
-  [key:string]:string|number;
+  [key: string]: string | number;
 }
 export interface IDuration {
   id: number;
   value: number;
+  [key: string]: string | number;
 }
 export interface IRegion {
   id: number;
   name: string;
+  [key: string]: string | number;
 }
 export interface IGame {
   user_id: number;
@@ -30,25 +33,29 @@ export interface IScore {
   username: string;
   score: number;
   region: string;
-  date_played: Date;
+  date_played: string;
   game_duration: number;
+  [key: string]: string | number;
 }
 export interface IFeedback {
   id: number;
   user_id: number;
   comment: string;
-  date_created: Date;
+  date_created: string;
+  [key: string]: string | number;
 }
 export interface IAchievement {
   id: number;
   achievement_name: string;
   achievement_description: string;
+  [key: string]: string | number;
 }
 export interface IAchievementAcquired {
   id: number;
   user_id: number;
   achievement_id: number;
   game_id: number | null;
+  [key: string]: string | number;
 }
 // .env variables i'm saving, making sure data is consistent:
 export class EnvVars {

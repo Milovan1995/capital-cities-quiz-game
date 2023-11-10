@@ -2,6 +2,7 @@ import { IUser } from "../dao/ITables.js";
 import { db } from "../dao/db.js";
 import { config } from "dotenv";
 import bcrypt from "bcrypt";
+import { saveUserInfo } from "../game/users.js";
 
 config();
 
@@ -32,10 +33,7 @@ export async function registerUser(
     } else {
       const saltRounds: number = 10;
       const hashedPassword: string = await bcrypt.hash(password, saltRounds);
-      const sql: string =
-        "INSERT INTO users (username, password) VALUES ($1, $2)";
-      await db.query(sql, [username, hashedPassword]);
-      console.log("Registration successfull!");
+      await saveUserInfo(username, hashedPassword);
     }
   } catch (error) {
     console.error("Error registering user", error);

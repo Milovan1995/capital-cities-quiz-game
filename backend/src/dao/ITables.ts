@@ -6,9 +6,9 @@ export interface ICapital {
   region_id: number | null;
 }
 export interface IUser {
-  id: number;
   username: string;
   password: string;
+  [key:string]:string|number;
 }
 export interface IDuration {
   id: number;

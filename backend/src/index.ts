@@ -4,7 +4,7 @@ import { config } from "dotenv";
 import { ICapital } from "./dao/ITables.js";
 import { getCapitals } from "./dao/capital.dao.js";
 import { dbInfo } from "./dao/db.js";
-
+import { saveGame, getScores } from "./game/scores.js";
 config();
 const app = express();
 const port = dbInfo.appPort;

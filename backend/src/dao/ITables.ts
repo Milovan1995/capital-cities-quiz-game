@@ -30,11 +30,9 @@ export interface IGame {
   [key: string]: string | number;
 }
 export interface IScore {
-  username: string;
-  score: number;
-  region: string;
-  date_played: string;
-  game_duration: number;
+  duration_id: number;
+  game_id: number;
+  user_id: number;
   [key: string]: string | number;
 }
 export interface IFeedback {

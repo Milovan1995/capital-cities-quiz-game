@@ -44,10 +44,10 @@ async function saveGame(
     const gameId = await readSingleValueFromTable<number>(
       "id",
       {
-        user_id: `=${userId}`,
-        duration_id: `=${durationId}`,
-        region_id: `=${regionId}`,
-        date_played: `=${game.date_played}`,
+        user_id: userId,
+        duration_id: durationId,
+        region_id: regionId,
+        date_played: game.date_played,
       },
       "game"
     );

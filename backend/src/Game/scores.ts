@@ -1,7 +1,8 @@
 import { QueryResult } from "pg";
 import { db } from "../dao/db.js";
 import { IScore } from "../dao/ITables.js";
-import { insertIntoDb, readSingleValueFromTable } from "../dao/dao.util.js";
+import { insertIntoDb } from "../dao/create.util.js";
+import { readSingleValueFromTable } from "../dao/read.util.js";
 import { IGame } from "../dao/ITables.js";
 
 async function getScores(chosenDuration: number): Promise<IScore[]> {
@@ -53,7 +54,6 @@ async function saveGame(
     );
 
     if (gameId) {
-      // Now you have the gameId and can proceed to insert it into the scores table
       const scoreEntry: IScore = {
         duration_id: durationId,
         game_id: gameId,

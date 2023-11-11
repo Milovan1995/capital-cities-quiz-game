@@ -47,5 +47,26 @@ async function readFromDb<T>(
     throw new Error(`Error reading from ${tableName}`);
   }
 }
+async function readColValueFromTable<T>(
+  column: string,
+  conditions: Record<string, string>,
+  tableName: string
+): Promise<T | null> {
+  try {
+    const { conditions: conditionStr, values } =
+      generateSelectQueryParams(conditions);
+    const sql: string = `SELECT ${column} FROM ${tableName} WHERE ${conditionStr}`;
+    const result = await db.query(sql, values);
+
+    if (result.rows.length > 0) {
+      return result.rows[0][column];
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error reading from", tableName, error);
+    throw new Error(`Error reading from ${tableName}`);
+  }
+}
 
 export { insertIntoDb, readFromDb };

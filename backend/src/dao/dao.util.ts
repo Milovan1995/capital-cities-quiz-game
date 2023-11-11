@@ -47,7 +47,7 @@ async function readFromDb<T>(
     throw new Error(`Error reading from ${tableName}`);
   }
 }
-async function readColValueFromTable<T>(
+async function readSingleValueFromTable<T>(
   column: string,
   conditions: Record<string, string>,
   tableName: string
@@ -69,4 +69,4 @@ async function readColValueFromTable<T>(
   }
 }
 
-export { insertIntoDb, readFromDb };
+export { insertIntoDb, readFromDb, readSingleValueFromTable };

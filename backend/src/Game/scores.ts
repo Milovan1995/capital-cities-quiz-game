@@ -1,7 +1,7 @@
 import { QueryResult } from "pg";
 import { db } from "../dao/db.js";
 import { IScore } from "../dao/ITables.js";
-import { insertIntoDb } from "../dao/dao.util.js";
+import { insertIntoDb, readSingleValueFromTable } from "../dao/dao.util.js";
 import { IGame } from "../dao/ITables.js";
 
 async function getScores(chosenDuration: number): Promise<IScore[]> {
@@ -36,8 +36,34 @@ async function saveGame(
     region_id: regionId,
     date_played: new Date().toISOString().split("T")[0],
   };
+
   try {
-    insertIntoDb(game, "game");
+    await insertIntoDb(game, "game");
+
+    // Read the gameId from the "game" table
+    const gameId = await readSingleValueFromTable<number>(
+      "id",
+      {
+        user_id: `=${userId}`,
+        duration_id: `=${durationId}`,
+        region_id: `=${regionId}`,
+        date_played: `=${game.date_played}`,
+      },
+      "game"
+    );
+
+    if (gameId) {
+      // Now you have the gameId and can proceed to insert it into the scores table
+      const scoreEntry: IScore = {
+        duration_id: durationId,
+        game_id: gameId,
+        user_id: userId,
+      };
+      await insertIntoDb(scoreEntry, "scores");
+      console.log("Game saved");
+    } else {
+      console.error("Game not found");
+    }
   } catch (err) {
     console.error(err);
   }

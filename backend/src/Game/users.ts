@@ -12,4 +12,5 @@ async function saveUserInfo(username: string, password: string) {
     console.error(err, "Error saving user info.");
   }
 }
+
 export { saveUserInfo };

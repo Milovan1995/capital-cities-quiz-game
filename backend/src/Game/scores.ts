@@ -30,10 +30,22 @@ async function getHighscores(
   limit: number
 ): Promise<IScore[]> {
   try {
-    const scores: IScore[] = await getScores(chosenGameDuration);
-    const topScores = scores.slice(0, limit);
-    console.log(topScores);
-    return topScores;
+    const sql: string = `
+      SELECT g.score AS score, u.username AS username, r.name AS region, d.value AS game_length_seconds, g.date_played AS date_played
+      FROM game g
+      INNER JOIN users u ON g.user_id = u.id
+      INNER JOIN region r ON g.region_id = r.id
+      INNER JOIN duration d ON g.duration_id = d.id
+      WHERE d.value = $1
+      LIMIT = $2
+      ORDER BY g.score DESC;
+    `;
+    const result: QueryResult<IScore> = await db.query(sql, [
+      chosenGameDuration,
+      limit,
+    ]);
+    console.log(result.rows);
+    return result.rows;
   } catch (error) {
     console.error("Error executing query", error);
     throw new Error("Error retrieving highscores");

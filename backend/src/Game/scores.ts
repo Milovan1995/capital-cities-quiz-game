@@ -39,19 +39,7 @@ async function saveGame(
   };
 
   try {
-    await insertIntoDb(game, "game");
-
-    // Read the gameId from the "game" table
-    const gameId = await readSingleValueFromTable<number>(
-      "id",
-      {
-        user_id: userId,
-        duration_id: durationId,
-        region_id: regionId,
-        date_played: game.date_played,
-      },
-      "game"
-    );
+    const gameId: number = await insertIntoDb(game, "game");
 
     if (gameId) {
       const scoreEntry: IScore = {

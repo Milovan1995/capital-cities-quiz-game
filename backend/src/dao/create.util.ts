@@ -4,12 +4,17 @@ import { db } from "./db.js";
 async function insertIntoDb(
   param: Record<string, number | string>,
   tableName: string
-): Promise<void> {
+): Promise<number> {
   try {
     const { columns, placeholders, values } = generateInsertQueryParams(param);
-    const sql: string = `INSERT INTO ${tableName}(${columns}) VALUES(${placeholders});`;
+    const sql: string = `INSERT INTO ${tableName}(${columns}) VALUES(${placeholders}) RETURNING id;`;
     const result = await db.query(sql, [...values]);
     console.log(`${tableName} saved: Values: ${[...values]}`);
+    if (result.rows[0] && result.rows[0].id) {
+      const insertedId = result.rows[0].id;
+      console.log(`${tableName} saved with ID ${insertedId}`);
+      return insertedId;
+    }
   } catch (error) {
     console.error(`Error saving ${tableName}`, error);
     throw new Error(`Error saving ${tableName}`);

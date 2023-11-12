@@ -4,7 +4,7 @@ import { IScore } from "../dao/ITables.js";
 import { insertIntoDb } from "../dao/create.util.js";
 import { IGame } from "../dao/ITables.js";
 
-async function getScores(chosenDuration: number): Promise<IScore[]> {
+async function getScores(chosenGameDuration: number): Promise<IScore[]> {
   try {
     const sql: string = `
       SELECT g.score AS score, u.username AS username, r.name AS region, d.value AS game_length_seconds, g.date_played AS date_played
@@ -15,12 +15,28 @@ async function getScores(chosenDuration: number): Promise<IScore[]> {
       WHERE d.value = $1
       ORDER BY g.score DESC;
     `;
-    const result: QueryResult<IScore> = await db.query(sql, [chosenDuration]);
+    const result: QueryResult<IScore> = await db.query(sql, [
+      chosenGameDuration,
+    ]);
     console.log(result.rows);
     return result.rows;
   } catch (error) {
     console.error("Error executing query", error);
     throw new Error("Error retrieving scores");
+  }
+}
+async function getHighscores(
+  chosenGameDuration: number,
+  limit: number
+): Promise<IScore[]> {
+  try {
+    const scores: IScore[] = await getScores(chosenGameDuration);
+    const topScores = scores.slice(0, limit);
+    console.log(topScores);
+    return topScores;
+  } catch (error) {
+    console.error("Error executing query", error);
+    throw new Error("Error retrieving highscores");
   }
 }
 
@@ -46,4 +62,4 @@ async function saveGame(
   }
 }
 
-export { getScores, saveGame };
+export { getScores, saveGame, getHighscores };

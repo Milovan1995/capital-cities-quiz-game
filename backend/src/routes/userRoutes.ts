@@ -3,7 +3,7 @@ import { checkUsernameExists, registerUser } from "../auth/registration.js";
 
 const userRoutes = express.Router();
 
-userRoutes.get("/check-username", async (req, res) => {
+userRoutes.get("/api/check-username", async (req, res) => {
   // Route for checking username existence
   let usernameParam = req.query.username;
 
@@ -29,7 +29,7 @@ userRoutes.get("/check-username", async (req, res) => {
   }
 });
 
-userRoutes.post("/register-user", async (req, res) => {
+userRoutes.post("/api/register-user", async (req, res) => {
   // Route for registering a new user
   const { username, password } = req.body;
 

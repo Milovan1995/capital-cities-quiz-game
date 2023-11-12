@@ -30,14 +30,6 @@ CREATE TABLE game (
     date_played date CHECK (date_played <= current_date)
 );
 
-CREATE TABLE scores (
-    id serial PRIMARY KEY,
-    duration_id integer REFERENCES duration(id) ON DELETE CASCADE,
-    game_id integer REFERENCES game(id) ON DELETE CASCADE,
-    user_id integer REFERENCES users(id) ON DELETE CASCADE,
-    UNIQUE (game_id)
-);
-
 CREATE TABLE feedback (
     id serial PRIMARY KEY,
     user_id integer REFERENCES users(id) ON DELETE CASCADE,

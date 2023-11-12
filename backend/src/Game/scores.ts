@@ -2,20 +2,20 @@ import { QueryResult } from "pg";
 import { db } from "../dao/db.js";
 import { IScore } from "../dao/ITables.js";
 import { insertIntoDb } from "../dao/create.util.js";
-import { readSingleValueFromTable } from "../dao/read.util.js";
 import { IGame } from "../dao/ITables.js";
 
 async function getScores(chosenDuration: number): Promise<IScore[]> {
   try {
-    const sql: string = `select u.username,g.score as game_score,r.name as region,g.date_played as date_played,d.value as game_duration_seconds
-      from scores s, users u, game g, duration d,region r
-      where s.duration_id=d.id
-      and s.game_id = g.id
-      and s.user_id = u.id
-      and g.region_id=r.id
-      and d.value=${chosenDuration}
-      order by g.score desc;`;
-    const result: QueryResult<IScore> = await db.query(sql);
+    const sql: string = `
+      SELECT g.score AS score, u.username AS username, r.name AS region, d.value AS game_length_seconds, g.date_played AS date_played
+      FROM game g
+      INNER JOIN users u ON g.user_id = u.id
+      INNER JOIN region r ON g.region_id = r.id
+      INNER JOIN duration d ON g.duration_id = d.id
+      WHERE d.value = $1
+      ORDER BY g.score DESC;
+    `;
+    const result: QueryResult<IScore> = await db.query(sql, [chosenDuration]);
     console.log(result.rows);
     return result.rows;
   } catch (error) {
@@ -40,20 +40,9 @@ async function saveGame(
 
   try {
     const gameId: number = await insertIntoDb(game, "game");
-
-    if (gameId) {
-      const scoreEntry: IScore = {
-        duration_id: durationId,
-        game_id: gameId,
-        user_id: userId,
-      };
-      await insertIntoDb(scoreEntry, "scores");
-      console.log("Game saved");
-    } else {
-      console.error("Game not found");
-    }
+    console.log(`Game under id ${gameId} saved.`);
   } catch (err) {
-    console.error(err);
+    console.error("error", err);
   }
 }
 

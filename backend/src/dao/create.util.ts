@@ -14,6 +14,8 @@ async function insertIntoDb(
       const insertedId = result.rows[0].id;
       console.log(`${tableName} saved with ID ${insertedId}`);
       return insertedId;
+    } else {
+      throw new Error(`Error saving ${tableName}`);
     }
   } catch (error) {
     console.error(`Error saving ${tableName}`, error);

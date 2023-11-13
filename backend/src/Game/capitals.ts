@@ -1,14 +1,15 @@
-import { readFromDb } from "../dao/read.util.js";
+import { readValueFromTable } from "../dao/read.util.js";
 import { ICapital } from "../dao/ITables.js";
 
-async function getCapitals(regionId: number): Promise<ICapital[]> {
+async function getCapitals(regionId?: number): Promise<ICapital[]> {
   try {
-    return await readFromDb<ICapital>(
-      {
+    if (regionId) {
+      return await readValueFromTable<ICapital>("capitals", "*", {
         region_id: `${regionId}`,
-      },
-      "capitals"
-    );
+      });
+    } else {
+      return await readValueFromTable<ICapital>("capitals", "*");
+    }
   } catch (error) {
     console.error(error, "error");
   }

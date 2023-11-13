@@ -1,6 +1,6 @@
 import { IFeedback, IUser } from "../dao/ITables.js";
 import { insertIntoDb } from "../dao/create.util.js";
-import { readSingleValueFromTable } from "../dao/read.util.js";
+import { readValueFromTable } from "../dao/read.util.js";
 import { db } from "../dao/db.js";
 
 async function saveUserInfo(username: string, password: string) {
@@ -20,16 +20,19 @@ async function insertUserFeedback(
   postedComment: string
 ): Promise<void> {
   try {
-    const userId: number = await readSingleValueFromTable<number>(
+    const userId = await readValueFromTable<Record<string, number>>(
+      "users",
       "id",
-      { username: user },
-      "users"
+      {
+        username: user,
+      }
     );
     const datePosted: string = new Date().toISOString().split("T")[0];
     if (userId) {
+      const chosenUserId: number = userId[0].id;
       await insertIntoDb(
         {
-          user_id: userId,
+          user_id: chosenUserId,
           comment: postedComment,
           date_created: datePosted,
         },

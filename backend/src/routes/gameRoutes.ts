@@ -3,10 +3,8 @@ import express from "express";
 import { getCapitals } from "../game/capitals.js";
 import { ICapital } from "../dao/ITables.js";
 
-// Define gameRoutes
 const gameRoutes = express.Router();
 
-// Endpoint to get capitals for a specific region
 gameRoutes.get("/capitals/:regionId?", async (req: Request, res: Response) => {
   const { regionId } = req.params;
   const parsedRegionId = regionId ? parseInt(regionId, 10) : undefined;

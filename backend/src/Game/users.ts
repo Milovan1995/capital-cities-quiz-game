@@ -46,17 +46,22 @@ async function insertUserFeedback(
 
 async function getUserFeedback(user?: string): Promise<IFeedback[]> {
   try {
-    let detailedSearch: string = "";
     if (!!user) {
-      detailedSearch = ` and u.username = $1`;
+      const sql: string = `
+      SELECT f.comment, f.date_created, u.username
+      FROM feedback f
+      INNER JOIN users u ON f.user_id = u.id
+      and u.username = $1;`;
+      const result = await db.query(sql, [user]);
+      return result.rows;
+    } else {
+      const sql: string = `
+      SELECT f.comment, f.date_created, u.username
+      FROM feedback f
+      INNER JOIN users u ON f.user_id = u.id;`;
+      const result = await db.query(sql);
+      return result.rows;
     }
-    const sql: string = `
-    SELECT f.comment, f.date_created, u.username
-    FROM feedback f
-    INNER JOIN users u ON f.user_id = u.id
-    ${detailedSearch};`;
-    const result = await db.query(sql, [user]);
-    return result.rows ? result.rows : undefined;
   } catch (error) {
     console.error("Error:", error);
   }

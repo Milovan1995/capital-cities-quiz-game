@@ -1,6 +1,6 @@
 import { IFeedback, IUser } from "../dao/ITables.js";
 import { insertIntoDb } from "../dao/create.util.js";
-import { readFromDb, readSingleValueFromTable } from "../dao/read.util.js";
+import { readSingleValueFromTable } from "../dao/read.util.js";
 import { db } from "../dao/db.js";
 
 async function saveUserInfo(username: string, password: string) {
@@ -54,8 +54,7 @@ async function getUserFeedback(user?: string): Promise<IFeedback[]> {
     SELECT f.comment, f.date_created, u.username
     FROM feedback f
     INNER JOIN users u ON f.user_id = u.id
-    ${detailedSearch};
-`;
+    ${detailedSearch};`;
     const result = await db.query(sql, [user]);
     return result.rows ? result.rows : undefined;
   } catch (error) {

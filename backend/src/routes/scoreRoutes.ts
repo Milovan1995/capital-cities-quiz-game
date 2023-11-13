@@ -3,7 +3,7 @@ import { getScores, saveGame, getHighscores } from '../game/scores.js';
 
 const scoreRoutes = express.Router();
 
-scoreRoutes.get('/api/scores/:duration', async (req, res) => {
+scoreRoutes.get('/:duration', async (req, res) => {
   const { duration } = req.params;
 
   try {
@@ -14,7 +14,7 @@ scoreRoutes.get('/api/scores/:duration', async (req, res) => {
   }
 });
 
-scoreRoutes.get('/api/highscores/:duration/:limit', async (req, res) => {
+scoreRoutes.get('/highscores/:duration/:limit', async (req, res) => {
   const { duration, limit } = req.params;
 
   try {
@@ -25,7 +25,7 @@ scoreRoutes.get('/api/highscores/:duration/:limit', async (req, res) => {
   }
 });
 
-scoreRoutes.post('/api/save-game', async (req, res) => {
+scoreRoutes.post('/save-game', async (req, res) => {
   const { userId, score, durationId, regionId } = req.body;
 
   if (!userId || !score || !durationId || !regionId) {

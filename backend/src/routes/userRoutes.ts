@@ -1,9 +1,10 @@
 import express from "express";
 import { checkUsernameExists, registerUser } from "../auth/registration.js";
-
+import { getUserFeedback, insertUserFeedback } from "../game/users.js";
+import { IFeedback } from "../dao/ITables.js";
 const userRoutes = express.Router();
 
-userRoutes.get("/api/check-username", async (req, res) => {
+userRoutes.get("/check-username", async (req, res) => {
   // Route for checking username existence
   let usernameParam = req.query.username;
 
@@ -29,7 +30,7 @@ userRoutes.get("/api/check-username", async (req, res) => {
   }
 });
 
-userRoutes.post("/api/register-user", async (req, res) => {
+userRoutes.post("/register-user", async (req, res) => {
   // Route for registering a new user
   const { username, password } = req.body;
 
@@ -51,6 +52,43 @@ userRoutes.post("/api/register-user", async (req, res) => {
   try {
     await registerUser(usernameValue, password);
     return res.json({ message: "User registered successfully." });
+  } catch (error) {
+    return res.status(500).json({ error: "Internal server error." });
+  }
+});
+
+userRoutes.post("/insert-user-feedback", async (req, res) => {
+  const { user, postedComment } = req.body;
+
+  if (!user || !postedComment) {
+    return res.status(400).json({ error: "User and comment are required." });
+  }
+
+  try {
+    await insertUserFeedback(user, postedComment);
+    return res.json({ message: "Feedback saved successfully." });
+  } catch (error) {
+    return res.status(500).json({ error: "Internal server error." });
+  }
+});
+
+import { Request, Response } from "express";
+
+userRoutes.get("/user-feedback", async (req: Request, res: Response) => {
+  const user = req.query.user as string | undefined;
+
+  try {
+    let feedback: IFeedback[] = [];
+
+    if (user) {
+      // If 'user' is provided, fetch user-specific feedback
+      feedback = await getUserFeedback(user);
+    } else {
+      // If 'user' is not provided, fetch all feedback
+      feedback = await getUserFeedback();
+    }
+
+    return res.json({ feedback });
   } catch (error) {
     return res.status(500).json({ error: "Internal server error." });
   }

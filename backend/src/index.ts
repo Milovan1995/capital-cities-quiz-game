@@ -9,12 +9,14 @@ import { gameRoutes } from "./routes/gameRoutes.js";
 config();
 
 const app = express();
+const cors = require("cors");
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 const port = dbInfo.appPort;
 
+app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/scores", scoreRoutes);

@@ -6,10 +6,10 @@ import { authRoutes } from "./routes/authRoutes.js";
 import { userRoutes } from "./routes/userRoutes.js";
 import { scoreRoutes } from "./routes/scoreRoutes.js";
 import { gameRoutes } from "./routes/gameRoutes.js";
+import cors from "cors";
 config();
 
 const app = express();
-const cors = require("cors");
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));

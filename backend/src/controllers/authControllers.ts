@@ -3,7 +3,6 @@ import authServices from "../services/authServices.js";
 
 const checkIfUserValid = async (req: Request, res: Response) => {
   const { username, password } = req.body;
-
   if (!username || !password) {
     return res
       .status(400)

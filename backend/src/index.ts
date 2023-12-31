@@ -16,10 +16,10 @@ app.use(express.static("public"));
 
 const port = dbInfo.appPort;
 
-app.use("/api/auth", authRoutes);
-app.use("/api/user", userRoutes);
-app.use("/api/scores", scoreRoutes);
-app.use("/api/game", gameRoutes);
+app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
+app.use("/scores", scoreRoutes);
+app.use("/game", gameRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

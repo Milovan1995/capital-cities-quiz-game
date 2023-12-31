@@ -1,6 +1,6 @@
 import express from "express";
-import { checkUsernameExists, registerUser } from "../auth/registration.js";
-import { getUserFeedback, insertUserFeedback } from "../game/users.js";
+import { checkUsernameExists, registerUser } from "../repositories/auth/registration.js";
+import { getUserFeedback, insertUserFeedback } from "../repositories/game/users.js";
 import { IFeedback } from "../dao/ITables.js";
 const userRoutes = express.Router();
 

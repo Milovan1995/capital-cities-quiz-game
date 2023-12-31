@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import express from "express";
-import { getCapitals } from "../game/capitals.js";
+import { getCapitals } from "../repositories/game/capitals.js";
 import { ICapital } from "../dao/ITables.js";
 
 const gameRoutes = express.Router();

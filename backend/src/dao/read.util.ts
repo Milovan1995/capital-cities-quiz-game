@@ -1,6 +1,7 @@
 import { db } from "./db.js";
 
-// READING FROM DB
+// Function I will use to be able to inject my key value pairs into the sql query. Reusability purposes.
+
 function generateSelectQueryParams(params: Record<string, number | string>) {
   const conditions = Object.keys(params)
     .map((key, index) => `${key} = $${index + 1}`)
@@ -8,7 +9,10 @@ function generateSelectQueryParams(params: Record<string, number | string>) {
   const values = Object.values(params);
   return { conditions, values };
 }
-
+/// Generic function for reading values from table . table name argument is required,
+//column/columns are required, if object 'param' is passed, the query will change
+// and add 'WHERE KEY = VALUE' to the sql query i'm sending, if no object is passed
+//as an argument then the query won't have 'WHERE...' part
 async function readValueFromTable<T>(
   tableName: string,
   columnName: string | string[],

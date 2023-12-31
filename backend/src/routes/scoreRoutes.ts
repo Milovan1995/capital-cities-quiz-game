@@ -1,5 +1,5 @@
 import express from 'express';
-import { getScores, saveGame, getHighscores } from '../game/scores.js';
+import { getScores, saveGame, getHighscores } from '../repositories/game/scores.js';
 
 const scoreRoutes = express.Router();
 

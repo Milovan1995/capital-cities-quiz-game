@@ -54,7 +54,7 @@ async function getUserFeedback(user?: string): Promise<IFeedback[]> {
       SELECT f.comment, f.date_created, u.username
       FROM feedback f
       INNER JOIN users u ON f.user_id = u.id
-      and u.username = $1;`;
+      WHERE u.username = $1;`;
       const result = await db.query(sql, [user]);
       return result.rows;
     } else {

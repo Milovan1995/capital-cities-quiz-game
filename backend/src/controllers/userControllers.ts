@@ -1,9 +1,6 @@
 import { Request, Response } from "express";
-import {
-  getUserFeedback,
-  insertUserFeedback,
-} from "../repositories/game/users.js";
 import { IFeedback } from "../dao/ITables.js";
+import userServices from "../services/userServices.js";
 
 const insertNewUserFeedback = async (req: Request, res: Response) => {
   const { user, postedComment } = req.body;
@@ -13,8 +10,11 @@ const insertNewUserFeedback = async (req: Request, res: Response) => {
   }
 
   try {
-    await insertUserFeedback(user, postedComment);
-    return res.json({ message: "Feedback saved successfully." });
+    const isFeedbackInserted: boolean =
+      await userServices.insertNewUserFeedback(user, postedComment);
+    if (isFeedbackInserted) {
+      return res.json({ message: "Feedback saved successfully." });
+    }
   } catch (error) {
     return res.status(500).json({ error: "Internal server error." });
   }
@@ -23,16 +23,9 @@ const readFeedbackFromUsers = async (req: Request, res: Response) => {
   const user = req.query.user as string | undefined;
 
   try {
-    let feedback: IFeedback[] = [];
-
-    if (user) {
-      // If 'user' is provided, fetch user-specific feedback
-      feedback = await getUserFeedback(user);
-    } else {
-      // If 'user' is not provided, fetch all feedback
-      feedback = await getUserFeedback();
-    }
-
+    const feedback: IFeedback[] = await (!!user
+      ? userServices.readFeedbackFromUsers(user)
+      : userServices.readFeedbackFromUsers());
     return res.json({ feedback });
   } catch (error) {
     return res.status(500).json({ error: "Internal server error." });

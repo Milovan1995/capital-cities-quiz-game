@@ -3,7 +3,7 @@ export interface ICapital {
   id: number;
   country: string;
   capital: string;
-  region_id: number | null;
+  name: string;
   [key: string]: string | number;
 }
 export interface IUser {

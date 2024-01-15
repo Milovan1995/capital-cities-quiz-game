@@ -16,19 +16,23 @@ function generateSelectQueryParams(params: Record<string, number | string>) {
 async function readValueFromTable<T>(
   tableName: string,
   columnName: string | string[],
-  param?: Record<string, string | number>
+  param?: Record<string, string | number>,
+  joinTable?: string
 ): Promise<T[] | undefined> {
   try {
     const selectedColumns: string = Array.isArray(columnName)
       ? columnName.join(", ")
       : columnName;
+    const joinParam = !!joinTable
+      ? `INNER JOIN ${joinTable} on ${joinTable}.id = ${tableName}.${joinTable}_id`
+      : "";
     if (param) {
       const { conditions, values } = generateSelectQueryParams(param);
-      const sql: string = `SELECT ${selectedColumns} FROM ${tableName} WHERE ${conditions}`;
+      const sql = `SELECT ${selectedColumns} FROM ${tableName} ${joinParam} WHERE ${conditions}`;
       const result = await db.query(sql, values);
       return result.rows[0] ? result.rows : undefined;
     } else {
-      const sql: string = `SELECT ${selectedColumns} FROM ${tableName}`;
+      const sql = `SELECT ${selectedColumns} FROM ${tableName} ${joinParam}`;
       const result = await db.query(sql);
       return result.rows;
     }

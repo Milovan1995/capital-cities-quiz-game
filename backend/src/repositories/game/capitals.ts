@@ -15,7 +15,7 @@ async function getCapitals(regionId?: number): Promise<ICapital[]> {
     } else {
       return await readValueFromTable<ICapital>(
         "capitals",
-        "capitals.id,country,capital,region.name",
+        "capitals.id,country,capital,region.name as region",
         undefined,
         "region"
       );

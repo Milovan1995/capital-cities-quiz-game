@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import authServices from "../services/authServices.js";
-import { IUser } from "../dao/ITables.js";
 
 const checkIfUserValid = async (req: Request, res: Response) => {
   const username = req.body.username;
@@ -14,10 +13,11 @@ const checkIfUserValid = async (req: Request, res: Response) => {
   }
 
   try {
-    const isUserValid = await authServices.verifyUser(username, password);
+    const isUserValidResponse: Record<string, string | boolean> =
+      await authServices.authenticateUser(username, password);
 
-    if (isUserValid) {
-      return res.json({ message: "User verified successfully." });
+    if (isUserValidResponse.success) {
+      return res.send(isUserValidResponse);
     } else {
       return res.status(401).json({ error: "Authentication failed." });
     }
@@ -68,14 +68,9 @@ const registerNewUser = async (req: Request, res: Response) => {
   }
 
   try {
-    const registeredUser: IUser = await authServices.registerNewUser(
-      usernameValue,
-      password
-    );
-    if (!!registeredUser) {
-      return res.json({
-        message: `User registered successfully. ${registeredUser}`,
-      });
+    const result = await authServices.registerNewUser(usernameValue, password);
+    if (!!result) {
+      return res.send(result);
     }
   } catch (error) {
     return res.status(500).json({ error: "Internal server error." });

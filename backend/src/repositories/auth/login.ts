@@ -1,10 +1,10 @@
+import { IUser } from "../../dao/ITables.js";
 import { db } from "../../dao/db.js";
-import bcrypt from "bcrypt";
 
 export async function verifyUser(
   username: string,
   password: string
-): Promise<boolean> {
+): Promise<IUser> {
   try {
     const sql = "SELECT username, password FROM users WHERE username = $1";
     const result = await db.query(sql, [username]);
@@ -12,21 +12,9 @@ export async function verifyUser(
 
     if (!user) {
       // Username doesn't exist
-      return false;
+      throw new Error("There is no such username.");
     }
-
-    // Use bcrypt.compare to verify the password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (isPasswordValid) {
-      // Password is valid
-      console.log("Verified, password valid");
-      return true;
-    } else {
-      // Password is invalid
-      console.log("Password is invalid");
-      return false;
-    }
+    return user;
   } catch (error) {
     console.error("Error verifying user", error);
     throw new Error("Error verifying user");

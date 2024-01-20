@@ -3,18 +3,6 @@ import { insertIntoDb } from "../../dao/create.util.js";
 import { readValueFromTable } from "../../dao/read.util.js";
 import { db } from "../../dao/db.js";
 
-async function saveUserInfo(username: string, password: string) {
-  const user: IUser = {
-    username: username,
-    password: password,
-  };
-  try {
-    insertIntoDb(user, "users");
-  } catch (err) {
-    console.error(err, "Error saving user info.");
-  }
-}
-
 async function insertUserFeedback(
   user: string,
   postedComment: string
@@ -70,4 +58,4 @@ async function getUserFeedback(user?: string): Promise<IFeedback[]> {
   }
 }
 
-export { saveUserInfo, insertUserFeedback, getUserFeedback };
+export { insertUserFeedback, getUserFeedback };

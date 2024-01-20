@@ -3,14 +3,16 @@ import {
   checkUsernameExists,
   registerUser,
 } from "../repositories/auth/registration.js";
+import bcrypt from "bcrypt";
 
 export const authenticateUser = async (
   username: string,
   password: string
 ): Promise<boolean> => {
   try {
-    const isUserValid = await verifyUser(username, password);
-    return isUserValid;
+    const user = await verifyUser(username, password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    return isPasswordValid;
   } catch (error) {
     throw new Error("Internal server error.");
   }
@@ -27,8 +29,10 @@ const checkIfUsernameExists = async (username: string) => {
 
 const registerNewUser = async (username: string, password: string) => {
   try {
-    await registerUser(username, password);
-    return true;
+    const saltRounds: number = 10;
+    const hashedPassword: string = await bcrypt.hash(password, saltRounds);
+    const result = await registerUser(username, hashedPassword);
+    return result;
   } catch (error) {
     throw new Error("Internal error while registering the user");
   }

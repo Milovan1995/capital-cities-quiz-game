@@ -4,7 +4,7 @@ import { db } from "./db.js";
 async function insertIntoDb(
   param: Record<string, number | string>,
   tableName: string
-): Promise<number> {
+) {
   try {
     const { columns, placeholders, values } = generateInsertQueryParams(param);
     const sql: string = `INSERT INTO ${tableName}(${columns}) VALUES(${placeholders}) RETURNING id;`;
@@ -13,7 +13,7 @@ async function insertIntoDb(
     if (result.rows[0] && result.rows[0].id) {
       const insertedId = result.rows[0].id;
       console.log(`${tableName} saved with ID ${insertedId}`);
-      return insertedId;
+      return result.rows[0];
     } else {
       throw new Error(`Error saving ${tableName}`);
     }

@@ -9,6 +9,7 @@ export interface ICapital {
 export interface IUser {
   username: string;
   password: string;
+  privilege: number;
   [key: string]: string | number;
 }
 export interface IDuration {

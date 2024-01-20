@@ -1,12 +1,16 @@
 import { Request, Response } from "express";
 import authServices from "../services/authServices.js";
+import { IUser } from "../dao/ITables.js";
 
 const checkIfUserValid = async (req: Request, res: Response) => {
-  const { username, password } = req.body;
+  const username = req.body.username;
+  const password = req.body.password;
+  console.log(req.body);
   if (!username || !password) {
-    return res
-      .status(400)
-      .json({ error: "Username and password are required." });
+    return res.status(400).json({
+      error: "Username and password are required.",
+      msg: `${req.body.username}`,
+    });
   }
 
   try {
@@ -64,12 +68,14 @@ const registerNewUser = async (req: Request, res: Response) => {
   }
 
   try {
-    const userRegistered: boolean = await authServices.registerNewUser(
+    const registeredUser: IUser = await authServices.registerNewUser(
       usernameValue,
       password
     );
-    if (userRegistered) {
-      return res.json({ message: "User registered successfully." });
+    if (!!registeredUser) {
+      return res.json({
+        message: `User registered successfully. ${registeredUser}`,
+      });
     }
   } catch (error) {
     return res.status(500).json({ error: "Internal server error." });

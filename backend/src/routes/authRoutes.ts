@@ -4,7 +4,7 @@ import authControllers from "../controllers/authControllers.js";
 
 const authRoutes = express.Router();
 authRoutes.get("/check-username", authControllers.checkUsernameExistence);
-authRoutes.post("/register-user", authControllers.registerNewUser);
-authRoutes.post("/verify-user", authControllers.checkIfUserValid);
+authRoutes.post("/register", authControllers.registerNewUser);
+authRoutes.post("/login", authControllers.checkIfUserValid);
 
 export { authRoutes };

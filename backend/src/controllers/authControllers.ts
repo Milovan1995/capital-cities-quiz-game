@@ -19,7 +19,7 @@ const checkIfUserValid = async (req: Request, res: Response) => {
     if (isUserValidResponse.success) {
       return res.send(isUserValidResponse);
     } else {
-      return res.status(401).json({ error: "Authentication failed." });
+      return res.status(401).json({ success: false, isUserValidResponse });
     }
   } catch (error) {
     return res.status(500).json({ error: "Internal server error." });

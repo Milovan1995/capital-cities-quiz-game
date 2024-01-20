@@ -11,12 +11,13 @@ const authenticateUser = async (
   password: string
 ): Promise<Record<string, string | boolean>> => {
   try {
-    const isUserValid = await verifyUser(userName, password);
+    const response = await verifyUser(userName, password);
+    const isUserValid = response[0];
     if (isUserValid) {
       const token = jwt.sign(
         {
           username: userName,
-          isAdmin: false,
+          isAdmin: response[1].privilege == 1,
         },
         "SECRET"
       );

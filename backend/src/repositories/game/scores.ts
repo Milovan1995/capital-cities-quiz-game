@@ -37,8 +37,8 @@ async function getHighscores(
       INNER JOIN region r ON g.region_id = r.id
       INNER JOIN duration d ON g.duration_id = d.id
       WHERE d.value = $1
-      LIMIT = $2
-      ORDER BY g.score DESC;
+      ORDER BY g.score DESC
+      LIMIT $2;
     `;
     const result: QueryResult<IScore> = await db.query(sql, [
       chosenGameDuration,
@@ -67,10 +67,11 @@ async function saveGame(
   };
 
   try {
-    const gameId: number = await insertIntoDb(game, "game");
-    console.log(`Game under id ${gameId} saved.`);
+    const gameRecord = await insertIntoDb(game, "game");
+    console.log(`Game under id ${gameRecord.id} saved.`);
   } catch (err) {
     console.error("error", err);
+    throw err;
   }
 }
 

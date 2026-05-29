@@ -7,7 +7,7 @@ export async function verifyUser(
 ): Promise<any> {
   try {
     const sql =
-      "SELECT username, password, privilege FROM users WHERE username = $1";
+      "SELECT id, username, password, privilege FROM users WHERE username = $1";
     const result = await db.query(sql, [username]);
     const user = result.rows[0];
 

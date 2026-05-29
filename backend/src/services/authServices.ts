@@ -16,6 +16,7 @@ const authenticateUser = async (
     if (isUserValid) {
       const token = jwt.sign(
         {
+          userId: response[1].id,
           username: userName,
           isAdmin: response[1].privilege == 1,
         },
@@ -47,6 +48,7 @@ const registerNewUser = async (userName: string, password: string) => {
     if (!!result.id) {
       const token = jwt.sign(
         {
+          userId: result.id,
           username: userName,
           isAdmin: false,
         },

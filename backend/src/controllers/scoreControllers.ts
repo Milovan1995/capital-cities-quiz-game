@@ -1,13 +1,19 @@
 import { Request, Response } from "express";
-import { IScore } from "../dao/ITables.js";
+import { IAuthTokenPayload, IScore } from "../dao/ITables.js";
 import scoreServices from "../services/scoreServices.js";
+
+type AuthenticatedRequest = Request & { auth?: IAuthTokenPayload };
 
 const recieveScores = async (req: Request, res: Response) => {
   const { duration } = req.params;
+  const parsedDuration = parseInt(duration, 10);
+
+  if (Number.isNaN(parsedDuration)) {
+    return res.status(400).json({ error: "Valid duration is required." });
+  }
+
   try {
-    const scores: IScore[] = await scoreServices.getAllScores(
-      parseInt(duration, 10)
-    );
+    const scores: IScore[] = await scoreServices.getAllScores(parsedDuration);
     return res.json(scores);
   } catch (error) {
     return res.status(500).json({ error: "Internal server error." });
@@ -15,10 +21,19 @@ const recieveScores = async (req: Request, res: Response) => {
 };
 const recieveHighScores = async (req: Request, res: Response) => {
   const { duration, limit } = req.params;
+  const parsedDuration = parseInt(duration, 10);
+  const parsedLimit = parseInt(limit, 10);
+
+  if (Number.isNaN(parsedDuration) || Number.isNaN(parsedLimit)) {
+    return res
+      .status(400)
+      .json({ error: "Valid duration and limit are required." });
+  }
+
   try {
     const highscores: IScore[] = await scoreServices.getANumberOfHighscores(
-      parseInt(duration, 10),
-      parseInt(limit, 10)
+      parsedDuration,
+      parsedLimit
     );
     return res.json(highscores);
   } catch (error) {
@@ -26,9 +41,18 @@ const recieveHighScores = async (req: Request, res: Response) => {
   }
 };
 const saveGameScore = async (req: Request, res: Response) => {
-  const { userId, score, durationId, regionId } = req.body;
+  const auth = (req as AuthenticatedRequest).auth;
+  const userId = Number(req.body.userId ?? auth?.userId);
+  const score = Number(req.body.score);
+  const durationId = Number(req.body.durationId);
+  const regionId = Number(req.body.regionId);
 
-  if (!userId || !score || !durationId || !regionId) {
+  if (
+    Number.isNaN(userId) ||
+    Number.isNaN(score) ||
+    Number.isNaN(durationId) ||
+    Number.isNaN(regionId)
+  ) {
     return res.status(400).json({
       error: "User ID, score, duration ID, and region ID are required.",
     });

@@ -1,6 +1,8 @@
-import { IFeedback } from "../dao/ITables.js";
+import { IFeedback, IUserProfile, IUserStats } from "../dao/ITables.js";
 import {
   getUserFeedback,
+  getUserGameStatsByUsername,
+  getUserProfileByUsername,
   insertUserFeedback,
 } from "../repositories/game/users.js";
 
@@ -18,4 +20,24 @@ const readFeedbackFromUsers = async (user?: string) => {
     : getUserFeedback());
   return data;
 };
-export default { insertNewUserFeedback, readFeedbackFromUsers };
+
+const getCurrentUserProfile = async (username: string) => {
+  const user: IUserProfile | undefined = await getUserProfileByUsername(
+    username
+  );
+  return user;
+};
+
+const getCurrentUserStats = async (username: string) => {
+  const stats: IUserStats | undefined = await getUserGameStatsByUsername(
+    username
+  );
+  return stats;
+};
+
+export default {
+  insertNewUserFeedback,
+  readFeedbackFromUsers,
+  getCurrentUserProfile,
+  getCurrentUserStats,
+};

@@ -3,10 +3,11 @@ export interface ICapital {
   id: number;
   country: string;
   capital: string;
-  name: string;
+  region?: string;
   [key: string]: string | number;
 }
 export interface IUser {
+  id?: number;
   username: string;
   password: string;
   privilege: number;
@@ -31,10 +32,25 @@ export interface IGame {
   [key: string]: string | number;
 }
 export interface IScore {
-  duration_id: number;
-  game_id: number;
-  user_id: number;
+  score: number;
+  username: string;
+  region: string;
+  game_length_seconds: number;
+  date_played: string;
   [key: string]: string | number;
+}
+export interface IUserProfile {
+  id: number;
+  username: string;
+  privilege: number;
+  [key: string]: string | number;
+}
+export interface IUserStats {
+  total_games: number;
+  best_score: number;
+  average_score: number;
+  last_played: string | null;
+  [key: string]: string | number | null;
 }
 export interface IFeedback {
   id: number;
@@ -79,4 +95,10 @@ export class EnvVars {
     this.dbPort = dbPort;
     this.appPort = appPort;
   }
+}
+
+export interface IAuthTokenPayload {
+  userId: number;
+  username: string;
+  isAdmin: boolean;
 }

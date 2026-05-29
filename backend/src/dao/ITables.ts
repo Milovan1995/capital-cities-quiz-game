@@ -27,9 +27,9 @@ export interface IGame {
   user_id: number;
   score: number;
   duration_id: number;
-  region_id: number;
+  region_id?: number | null;
   date_played: string;
-  [key: string]: string | number;
+  [key: string]: string | number | null | undefined;
 }
 export interface IScore {
   score: number;

@@ -27,7 +27,7 @@ const saveGameScore = async (
   userId: number,
   score: number,
   durationId: number,
-  regionId: number
+  regionId?: number
 ) => {
   try {
     await saveGame(userId, score, durationId, regionId);

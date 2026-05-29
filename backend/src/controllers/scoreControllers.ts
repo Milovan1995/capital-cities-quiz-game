@@ -45,16 +45,20 @@ const saveGameScore = async (req: Request, res: Response) => {
   const userId = Number(req.body.userId ?? auth?.userId);
   const score = Number(req.body.score);
   const durationId = Number(req.body.durationId);
-  const regionId = Number(req.body.regionId);
+  const rawRegionId = req.body.regionId;
+  const regionId =
+    rawRegionId === undefined || rawRegionId === null || rawRegionId === ""
+      ? undefined
+      : Number(rawRegionId);
 
   if (
     Number.isNaN(userId) ||
     Number.isNaN(score) ||
     Number.isNaN(durationId) ||
-    Number.isNaN(regionId)
+    (regionId !== undefined && Number.isNaN(regionId))
   ) {
     return res.status(400).json({
-      error: "User ID, score, duration ID, and region ID are required.",
+      error: "User ID, score, and duration ID are required.",
     });
   }
 

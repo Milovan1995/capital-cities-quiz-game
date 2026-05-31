@@ -18,7 +18,7 @@ const authenticateUser = async (
         {
           userId: response[1].id,
           username: userName,
-          isAdmin: response[1].privilege == 1,
+          isAdmin: response[1].privilege === 1,
         },
         "SECRET"
       );

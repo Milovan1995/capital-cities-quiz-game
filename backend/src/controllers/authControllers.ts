@@ -3,8 +3,7 @@ import authServices from "../services/authServices.js";
 
 const checkIfUserValid = async (req: Request, res: Response) => {
   const username = req.body.username;
-  const password = req.body.password;
-  console.log(req.body);
+  const password = req.body.password;
   if (!username || !password) {
     return res.status(400).json({
       error: "Username and password are required.",

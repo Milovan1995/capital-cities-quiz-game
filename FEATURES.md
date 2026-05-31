@@ -1,58 +1,68 @@
-# Capital Cities Quiz Game Features
+# Capital Cities Quiz Game - Features
 
-This document outlines the features and enhancements planned for the Capital Cities Quiz Game. These features aim to make the game more engaging, educational, and enjoyable for players.
+This document lists the main implemented and planned features for the Capital Cities Quiz Game.
 
-## Timer Options
+## Implemented Features
 
-- Two timer options: 30 seconds and 60 seconds.
-- Timer displayed prominently on the screen.
-- Customizable timer settings for different levels of difficulty.
+### Authentication
 
-## Cumulative Scoring
+- User registration
+- User login
+- Protected user-related data
 
-- Scoring accumulates based on correct answers.
-- Feedback on the running score to keep users informed of their progress.
-- Implement a combo or multiplier system for consecutive correct answers.
+### Quiz Gameplay
 
-## Region Selection
+- Random capital city questions
+- Region-based quiz selection
+- Different game durations
+- Score tracking during the game
 
-- Option for users to choose regions for questions.
-- User-friendly interface for region selection.
-- A diverse set of questions for each region to provide variety.
+### Scores and History
 
-## Power-Ups and Hints
+- Saving completed quiz results
+- User quiz history
+- High score tracking
+- Leaderboard comparison
 
-- In-game currency or points can be used to earn or purchase power-ups or hints.
-- Enhance user experience by providing assistance on challenging questions.
+### User Profile
 
-## Leaderboards
+- Basic user profile data
+- Quiz history connected to the logged-in user
+- Date stamps for completed quiz sessions
 
-- Global leaderboards for users to compare their scores with players worldwide.
-- Competitive aspect to motivate players.
+### Database
 
-## Achievements
+- PostgreSQL database structure
+- Tables for users, regions, capitals, games, scores, feedback and achievements
 
-- Implement achievements or badges for reaching milestones or completing specific tasks.
-- Encourages users to explore different aspects of the game and continue playing.
+## Planned Improvements
 
-## Sound and Visual Effects
+### Gameplay
 
-- Enhance user experience with sound effects and animations.
-- Feedback for correct and incorrect answers and reaching milestones.
+- Better feedback for correct and incorrect answers
+- Combo or multiplier system for consecutive correct answers
+- More question variety by region
 
-## Avatars and Customization
+### User Experience
 
-- Allow users to customize their in-game avatars or profiles.
-- Option to choose themes and personalize the gaming experience.
+- Improved animations and visual feedback
+- Sound effects
+- Better mobile layout
+- Cleaner game summary screen
 
-## User Feedback and Analytics
+### Player Progress
 
-- Collect user feedback and analyze gameplay data for continuous improvements.
-- Regular updates to the game with new content and features.
+- Achievements and badges
+- More detailed statistics
+- Progress overview by region
 
-## Date Stamps
+### Customization
 
-- Record and display date stamps for when users complete quiz sessions.
-- Enhances user experience by allowing users to track their progress over time.
+- Avatar selection
+- Theme options
+- User preferences
 
-These features are designed to create an engaging and educational quiz game, providing a fun and informative experience for players. As development progresses, further details and specifications for each feature will be outlined in the project's documentation.
+### Feedback and Analytics
+
+- Feedback collection from users
+- Gameplay data analysis for future improvements

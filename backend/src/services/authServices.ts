@@ -6,6 +6,8 @@ import {
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+const JWT_SECRET = process.env.JWT_SECRET || "SECRET";
+
 const authenticateUser = async (
   userName: string,
   password: string
@@ -20,7 +22,7 @@ const authenticateUser = async (
           username: userName,
           isAdmin: response[1].privilege === 1,
         },
-        "SECRET"
+        JWT_SECRET
       );
       return { success: true, token };
     } else {
@@ -52,7 +54,7 @@ const registerNewUser = async (userName: string, password: string) => {
           username: userName,
           isAdmin: false,
         },
-        "SECRET"
+        JWT_SECRET
       );
       return { success: true, token };
     }

@@ -1,4 +1,4 @@
-# Capital Cities Quiz Game - Features
+## Capital Cities Quiz Game - Features
 
 This document lists the main implemented and planned features for the Capital Cities Quiz Game.
 

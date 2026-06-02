@@ -1,11 +1,11 @@
-//interfaces for db tables - making sure the data is consistent:
-export interface ICapital {
+export interface ICapital {
   id: number;
   country: string;
   capital: string;
   region?: string;
   [key: string]: string | number;
 }
+
 export interface IUser {
   id?: number;
   username: string;
@@ -13,16 +13,19 @@ export interface IUser {
   privilege: number;
   [key: string]: string | number;
 }
+
 export interface IDuration {
   id: number;
   value: number;
   [key: string]: string | number;
 }
+
 export interface IRegion {
   id: number;
   name: string;
   [key: string]: string | number;
 }
+
 export interface IGame {
   user_id: number;
   score: number;
@@ -31,6 +34,7 @@ export interface IGame {
   date_played: string;
   [key: string]: string | number | null | undefined;
 }
+
 export interface IScore {
   score: number;
   username: string;
@@ -39,12 +43,14 @@ export interface IScore {
   date_played: string;
   [key: string]: string | number;
 }
+
 export interface IUserProfile {
   id: number;
   username: string;
   privilege: number;
   [key: string]: string | number;
 }
+
 export interface IUserStats {
   total_games: number;
   best_score: number;
@@ -52,6 +58,7 @@ export interface IUserStats {
   last_played: string | null;
   [key: string]: string | number | null;
 }
+
 export interface IFeedback {
   id: number;
   user_id: number;
@@ -59,12 +66,14 @@ export interface IFeedback {
   date_created: string;
   [key: string]: string | number;
 }
+
 export interface IAchievement {
   id: number;
   achievement_name: string;
   achievement_description: string;
   [key: string]: string | number;
 }
+
 export interface IAchievementAcquired {
   id: number;
   user_id: number;
@@ -72,7 +81,7 @@ export interface IAchievementAcquired {
   game_id: number | null;
   [key: string]: string | number;
 }
-// .env variables i'm saving, making sure data is consistent:
+
 export class EnvVars {
   password: string;
   host: string;

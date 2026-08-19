@@ -11,10 +11,7 @@ export async function verifyUser(
     const result = await db.query(sql, [username]);
     const user = result.rows[0];
 
-    if (!user) {
-      // Username doesn't exist
-      throw new Error("There is no such username.");
-    }
+    if (!user) return [false, undefined];
 
     // Use bcrypt.compare to verify the password
     const isPasswordValid = await bcrypt.compare(password, user.password);

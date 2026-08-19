@@ -3,6 +3,7 @@ import {
   saveGame,
   getHighscores,
   getScores,
+  gameReferencesExist,
 } from "../repositories/game/scores.js";
 
 const getAllScores = async (duration: number) => {
@@ -36,4 +37,12 @@ const saveGameScore = async (
     throw new Error("Internal error while saving game info");
   }
 };
-export default { getANumberOfHighscores, getAllScores, saveGameScore };
+const validateGameReferences = async (durationId: number, regionId?: number) =>
+  gameReferencesExist(durationId, regionId);
+
+export default {
+  getANumberOfHighscores,
+  getAllScores,
+  saveGameScore,
+  validateGameReferences,
+};

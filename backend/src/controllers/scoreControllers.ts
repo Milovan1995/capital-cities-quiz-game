@@ -42,7 +42,7 @@ const recieveHighScores = async (req: Request, res: Response) => {
 };
 const saveGameScore = async (req: Request, res: Response) => {
   const auth = (req as AuthenticatedRequest).auth;
-  const userId = Number(req.body.userId ?? auth?.userId);
+  const userId = Number(auth?.userId);
   const score = Number(req.body.score);
   const durationId = Number(req.body.durationId);
   const rawRegionId = req.body.regionId;
@@ -52,17 +52,31 @@ const saveGameScore = async (req: Request, res: Response) => {
       : Number(rawRegionId);
 
   if (
-    Number.isNaN(userId) ||
-    Number.isNaN(score) ||
-    Number.isNaN(durationId) ||
-    (regionId !== undefined && Number.isNaN(regionId))
+    !Number.isInteger(userId) ||
+    !Number.isInteger(score) ||
+    score < 0 ||
+    !Number.isInteger(durationId) ||
+    durationId <= 0 ||
+    (regionId !== undefined &&
+      (!Number.isInteger(regionId) || regionId <= 0))
   ) {
     return res.status(400).json({
-      error: "User ID, score, and duration ID are required.",
+      error: "Score and valid duration ID are required; region ID must be positive when provided.",
     });
   }
 
   try {
+    const references = await scoreServices.validateGameReferences(
+      durationId,
+      regionId
+    );
+    if (!references.durationExists) {
+      return res.status(404).json({ error: "Duration not found." });
+    }
+    if (regionId !== undefined && !references.regionExists) {
+      return res.status(404).json({ error: "Region not found." });
+    }
+
     const isSavedSuccessfully: boolean = await scoreServices.saveGameScore(
       userId,
       score,

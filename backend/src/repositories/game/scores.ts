@@ -75,4 +75,21 @@ async function saveGame(
   }
 }
 
-export { getScores, saveGame, getHighscores };
+async function gameReferencesExist(durationId: number, regionId?: number) {
+  const durationResult = await db.query(
+    "SELECT 1 FROM duration WHERE id = $1",
+    [durationId]
+  );
+  if (regionId === undefined) {
+    return { durationExists: durationResult.rowCount === 1, regionExists: true };
+  }
+  const regionResult = await db.query("SELECT 1 FROM region WHERE id = $1", [
+    regionId,
+  ]);
+  return {
+    durationExists: durationResult.rowCount === 1,
+    regionExists: regionResult.rowCount === 1,
+  };
+}
+
+export { getScores, saveGame, getHighscores, gameReferencesExist };

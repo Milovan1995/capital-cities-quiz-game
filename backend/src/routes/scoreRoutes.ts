@@ -1,5 +1,6 @@
 import express from "express";
 import scoreControllers from "../controllers/scoreControllers.js";
+import authMiddleware from "../middlewares/auth-middleware.js";
 
 const scoreRoutes = express.Router();
 
@@ -10,6 +11,10 @@ scoreRoutes.get(
   scoreControllers.recieveHighScores
 );
 
-scoreRoutes.post("/save-game", scoreControllers.saveGameScore);
+scoreRoutes.post(
+  "/save-game",
+  authMiddleware,
+  scoreControllers.saveGameScore
+);
 
 export { scoreRoutes };

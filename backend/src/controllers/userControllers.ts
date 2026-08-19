@@ -5,18 +5,25 @@ import userServices from "../services/userServices.js";
 type AuthenticatedRequest = Request & { auth?: IAuthTokenPayload };
 
 const insertNewUserFeedback = async (req: Request, res: Response) => {
-  const { user, postedComment } = req.body;
+  const auth = (req as AuthenticatedRequest).auth;
+  const postedComment =
+    typeof req.body.postedComment === "string"
+      ? req.body.postedComment.trim()
+      : "";
 
-  if (!user || !postedComment) {
-    return res.status(400).json({ error: "User and comment are required." });
+  if (!auth?.username || !postedComment || postedComment.length > 2000) {
+    return res.status(400).json({
+      error: "A comment between 1 and 2000 characters is required.",
+    });
   }
 
   try {
     const isFeedbackInserted: boolean =
-      await userServices.insertNewUserFeedback(user, postedComment);
+      await userServices.insertNewUserFeedback(auth.username, postedComment);
     if (isFeedbackInserted) {
       return res.json({ message: "Feedback saved successfully." });
     }
+    return res.status(500).json({ error: "Internal server error." });
   } catch (error) {
     return res.status(500).json({ error: "Internal server error." });
   }

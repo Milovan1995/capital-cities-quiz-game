@@ -43,12 +43,15 @@ export async function registerUser(
     const usernameExists = await checkUsernameExists(username);
 
     if (usernameExists) {
-      throw new Error("Username already exists");
+      throw new Error("USERNAME_EXISTS");
     } else {
       const result = await saveUserInfo(username, password);
       return result;
     }
   } catch (error) {
+    if (error instanceof Error && error.message === "USERNAME_EXISTS") {
+      throw error;
+    }
     console.error("Error registering user", error);
     throw new Error("Error registering user");
   }

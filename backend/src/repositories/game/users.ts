@@ -36,7 +36,8 @@ async function insertUserFeedback(
       throw new Error("Error saving feedback");
     }
   } catch (error) {
-    console.error(error, "Error saving user feedback");
+    console.error("Error saving user feedback", error);
+    throw error;
   }
 }
 

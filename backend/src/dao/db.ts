@@ -1,8 +1,7 @@
 import pg from "pg";
-import { config } from "dotenv";
 import { EnvVars } from "./ITables.js";
+import "../config.js";
 
-config({ path: "../../.env" });
 
 const dbInfo = new EnvVars(
   process.env.DB_PASSWORD,
@@ -13,14 +12,12 @@ const dbInfo = new EnvVars(
   parseInt(process.env.APP_PORT || "3000", 10)
 );
 
-const db = new pg.Client({
+const db = new pg.Pool({
   user: dbInfo.user,
   host: dbInfo.host,
   database: dbInfo.db,
   password: dbInfo.password,
   port: dbInfo.dbPort,
 });
-
-db.connect();
 
 export { db, dbInfo };

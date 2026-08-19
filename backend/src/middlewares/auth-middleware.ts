@@ -1,9 +1,8 @@
 import { expressjwt } from "express-jwt";
-
-const JWT_SECRET = process.env.JWT_SECRET ?? "SECRET";
+import { appConfig } from "../config.js";
 
 const authMiddleware = expressjwt({
-  secret: JWT_SECRET,
+  secret: appConfig.jwtSecret,
   algorithms: ["HS256"],
 });
 

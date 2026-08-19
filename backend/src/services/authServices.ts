@@ -5,8 +5,7 @@ import {
 } from "../repositories/auth/registration.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
-const JWT_SECRET = process.env.JWT_SECRET || "SECRET";
+import { appConfig } from "../config.js";
 
 const authenticateUser = async (
   userName: string,
@@ -22,7 +21,8 @@ const authenticateUser = async (
           username: userName,
           isAdmin: response[1].privilege === 1,
         },
-        JWT_SECRET
+        appConfig.jwtSecret,
+        { expiresIn: "1h" }
       );
       return { success: true, token };
     } else {
@@ -54,11 +54,15 @@ const registerNewUser = async (userName: string, password: string) => {
           username: userName,
           isAdmin: false,
         },
-        JWT_SECRET
+        appConfig.jwtSecret,
+        { expiresIn: "1h" }
       );
       return { success: true, token };
     }
   } catch (error) {
+    if (error instanceof Error && error.message === "USERNAME_EXISTS") {
+      throw error;
+    }
     throw new Error("Internal error while registering the user");
   }
 };

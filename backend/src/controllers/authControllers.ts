@@ -2,12 +2,13 @@ import { Request, Response } from "express";
 import authServices from "../services/authServices.js";
 
 const checkIfUserValid = async (req: Request, res: Response) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  if (!username || !password) {
+  const username =
+    typeof req.body.username === "string" ? req.body.username.trim() : "";
+  const password =
+    typeof req.body.password === "string" ? req.body.password : "";
+  if (!username || !password || username.length > 45) {
     return res.status(400).json({
       error: "Username and password are required.",
-      msg: `${req.body.username}`,
     });
   }
 
@@ -18,7 +19,9 @@ const checkIfUserValid = async (req: Request, res: Response) => {
     if (isUserValidResponse.success) {
       return res.send(isUserValidResponse);
     } else {
-      return res.status(401).json({ success: false, isUserValidResponse });
+      return res
+        .status(401)
+        .json({ success: false, error: "Invalid username or password." });
     }
   } catch (error) {
     return res.status(500).json({ error: "Internal server error." });
@@ -51,20 +54,19 @@ const checkUsernameExistence = async (req: Request, res: Response) => {
 const registerNewUser = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
-  if (!username || !password) {
+  if (
+    typeof username !== "string" ||
+    typeof password !== "string" ||
+    !username.trim() ||
+    !password ||
+    username.trim().length > 45
+  ) {
     return res
       .status(400)
       .json({ error: "Username and password are required." });
   }
 
-  let usernameValue: string = username;
-  if (Array.isArray(username)) {
-    usernameValue = username[0];
-  }
-
-  if (typeof usernameValue !== "string") {
-    return res.status(400).json({ error: "Invalid username format." });
-  }
+  const usernameValue = username.trim();
 
   try {
     const result = await authServices.registerNewUser(usernameValue, password);
@@ -72,6 +74,9 @@ const registerNewUser = async (req: Request, res: Response) => {
       return res.send(result);
     }
   } catch (error) {
+    if (error instanceof Error && error.message === "USERNAME_EXISTS") {
+      return res.status(409).json({ error: "Username already exists." });
+    }
     return res.status(500).json({ error: "Internal server error." });
   }
 };
